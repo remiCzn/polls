@@ -10,25 +10,24 @@ import { ResultProcessorService } from 'src/app/services/result-processor.servic
   styleUrls: ['./result-chart.component.scss'],
 })
 export class ResultChartComponent implements OnInit {
-  chartData: ChartDataSets[] = [
-    {
-      data: [330, 600, 260, 700],
-      label: 'Account A',
-    },
-    {
-      data: [120, 455, 100, 340],
-      label: 'Account B',
-    },
-    {
-      data: [45, 67, 800, 500],
-      label: 'Account C',
-    },
-  ];
+  chartData: ChartDataSets[] = [];
 
-  chartLabels: Label[] = ['January', 'February', 'March', 'April'];
+  chartLabels: Label[] = [];
+
+  stacked: boolean = true;
 
   chartOptions: ChartOptions = {
     responsive: true,
+    scales: {
+      yAxes: [
+        {
+          stacked: this.stacked,
+        },
+      ],
+    },
+    animation: {
+      duration: 800,
+    },
   };
 
   constructor(private resultProcessor: ResultProcessorService) {}
@@ -38,25 +37,28 @@ export class ResultChartComponent implements OnInit {
       ResultProcessorService.CANDIDATS.MELENCHON
     );
     const candidat2 = CandidatList.findByName(
-      ResultProcessorService.CANDIDATS.ZEMMOUR
+      ResultProcessorService.CANDIDATS.MACRON
     );
-    this.chartData = [
-      candidat1.buildCandidatDataSet(),
-      candidat2.buildCandidatDataSet(),
-    ];
+    this.chartData = [];
+    CandidatList.LIST.forEach((candidat) => {
+      this.chartData.push(candidat.buildCandidatDataSet(this.stacked));
+    });
     this.chartLabels = [];
     this.resultProcessor
-      .getResultsWithPagination(0, 100)
+      .getResultsGroupByDate()
       .then((res: Array<{ date: Date; resultats: any }>) => {
-        const raw = res.reverse();
+        const raw = res
+          .reverse()
+          .filter(
+            (sondage) => sondage.date.getTime() > new Date(2022, 1, 1).getTime()
+          );
         raw.forEach((sondage) => {
           this.chartLabels.push(sondage.date.toISOString().split('T')[0]);
-          console.log(sondage.resultats);
-          this.chartData[0].data?.push(sondage.resultats[candidat1.name]);
-          this.chartData[1].data?.push(sondage.resultats[candidat2.name]);
-          console.log(this.chartData);
-          console.log(this.chartLabels);
+          CandidatList.LIST.forEach((candidat, index) => {
+            this.chartData[index].data?.push(sondage.resultats[candidat.name]);
+          });
         });
       });
+    this.resultProcessor.getResultsGroupByDate();
   }
 }

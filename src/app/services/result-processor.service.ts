@@ -60,6 +60,32 @@ export class ResultProcessorService {
     return this.parseResultats(raw);
   }
 
+  public async getResultsGroupByDate() {
+    const raw = await this.getResults();
+    let result = [];
+    let date: Date = new Date();
+    let sum: any = {};
+    let n: number = 0;
+    for (let i = 1; i < raw.length; i++) {
+      const sondage = raw[i];
+      if (sondage.date.getTime() != date.getTime()) {
+        i > 0 ? result.push({ date: date, resultats: sum }) : null;
+        date = sondage.date;
+        sum = sondage.resultats;
+        n = 1;
+      } else {
+        Object.values(ResultProcessorService.CANDIDATS).forEach((candidat) => {
+          sum[candidat] =
+            (sum[candidat] * n + sondage.resultats[candidat]) / (n + 1);
+        });
+        n++;
+      }
+    }
+    result.push({ date: date, resultats: sum });
+    console.log(result);
+    return result;
+  }
+
   private parseResultats(data: Data) {
     return data.map((sondage: Sondage) => {
       let rawResultat = sondage.tours.filter(

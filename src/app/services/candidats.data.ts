@@ -12,12 +12,12 @@ class Candidat {
     this.image = image;
   }
 
-  public buildCandidatDataSet(): ChartDataSets {
+  public buildCandidatDataSet(stacked: boolean): ChartDataSets {
     return {
       data: [],
       label: this.name,
-      borderColor: this.color,
-      backgroundColor: 'rgba(0,0,0,0)',
+      borderColor: stacked ? 'rgba(0,0,0,0)' : this.color,
+      backgroundColor: stacked ? this.color : 'rgba(0,0,0,0)',
       pointRadius: 0,
     };
   }
@@ -26,8 +26,8 @@ class Candidat {
 export class CandidatList {
   public static LIST = [
     new Candidat(ResultProcessorService.CANDIDATS.ARTHAUD, '#bb0000'),
-    new Candidat(ResultProcessorService.CANDIDATS.POUTOU, '#bb0000'),
-    new Candidat(ResultProcessorService.CANDIDATS.ROUSSEL, '#dd0000'),
+    new Candidat(ResultProcessorService.CANDIDATS.POUTOU, '#dd0000'),
+    new Candidat(ResultProcessorService.CANDIDATS.ROUSSEL, '#ee0000'),
     new Candidat(ResultProcessorService.CANDIDATS.MELENCHON, '#cc2443'),
     new Candidat(ResultProcessorService.CANDIDATS.HIDALGO, '#ff8080'),
     new Candidat(ResultProcessorService.CANDIDATS.JADOT, '#00c000'),
