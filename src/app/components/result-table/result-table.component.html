@@ -6,6 +6,12 @@
       {{ sondage.date.toISOString().split("T")[0] }}
     </td>
   </ng-container>
+  <ng-container matColumnDef="institut">
+    <th mat-header-cell *matHeaderCellDef>Institut</th>
+    <td mat-cell *matCellDef="let sondage">
+      <a [href]="sondage.lien">{{ sondage.institut }}</a>
+    </td>
+  </ng-container>
   <ng-container
     *ngFor="let candidat of getCandidats(); let index = index"
     [matColumnDef]="candidat"

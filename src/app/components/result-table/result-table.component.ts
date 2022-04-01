@@ -15,8 +15,13 @@ export class ResultTableComponent implements OnInit {
     };
   }
 
-  resultats: Array<{ date: Date; resultats: any[] }> = [];
-  columns = ['date'].concat(this.getCandidats());
+  resultats: Array<{
+    date: Date;
+    resultats: any[];
+    institut: string;
+    lien: string | null;
+  }> = [];
+  columns = ['date', 'institut'].concat(this.getCandidats());
   initPaginatorConfig: { pageSize: number; length: number };
 
   ngOnInit(): void {
@@ -40,6 +45,7 @@ export class ResultTableComponent implements OnInit {
       event.pageIndex * event.pageSize,
       (event.pageIndex + 1) * event.pageSize - 1
     );
+    console.log(this.resultats);
   }
 
   async getResultsLength() {

@@ -44,7 +44,6 @@ export class ResultProcessorService {
     const raw = data.sort((a, b) => {
       return Date.parse(b.fin_enquete) - Date.parse(a.fin_enquete);
     });
-    console.log(raw);
     return this.parseResultats(raw);
   }
 
@@ -55,7 +54,6 @@ export class ResultProcessorService {
         return Date.parse(b.fin_enquete) - Date.parse(a.fin_enquete);
       })
       .slice(start, end + 1);
-    console.log(raw);
     return this.parseResultats(raw);
   }
 
@@ -86,7 +84,6 @@ export class ResultProcessorService {
       }
     }
     result.push({ date: date, resultats: sum });
-    console.log(result);
     return result;
   }
 
