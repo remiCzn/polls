@@ -18,7 +18,10 @@ class Candidat {
       label: this.name,
       borderColor: stacked ? 'rgba(0,0,0,0)' : this.color,
       backgroundColor: stacked ? this.color : 'rgba(0,0,0,0)',
-      pointRadius: 0,
+      pointRadius: stacked ? 0 : 3,
+      pointBorderColor: 'rgba(0,0,0,0)',
+      pointBackgroundColor: this.color,
+      pointHoverBorderColor: this.color,
     };
   }
 }

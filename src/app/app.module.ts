@@ -10,6 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from '@angular/material/tabs';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { FormsModule } from '@angular/forms';
 @NgModule({
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatSlideToggleModule,
     MatDividerModule,
+    MatTabsModule,
     FormsModule,
   ],
   providers: [CdkColumnDef],
