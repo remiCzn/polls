@@ -8,7 +8,10 @@ import { ResultTableComponent } from './components/result-table/result-table.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDividerModule } from '@angular/material/divider';
 import { CdkColumnDef } from '@angular/cdk/table';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent, ResultChartComponent, ResultTableComponent],
   imports: [
@@ -17,6 +20,9 @@ import { CdkColumnDef } from '@angular/cdk/table';
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
+    MatDividerModule,
+    FormsModule,
   ],
   providers: [CdkColumnDef],
   bootstrap: [AppComponent],

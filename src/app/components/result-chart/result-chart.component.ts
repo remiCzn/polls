@@ -33,12 +33,23 @@ export class ResultChartComponent implements OnInit {
   constructor(private resultProcessor: ResultProcessorService) {}
 
   ngOnInit(): void {
-    const candidat1 = CandidatList.findByName(
-      ResultProcessorService.CANDIDATS.MELENCHON
-    );
-    const candidat2 = CandidatList.findByName(
-      ResultProcessorService.CANDIDATS.MACRON
-    );
+    this.loadChart();
+  }
+
+  loadChart() {
+    this.chartOptions = {
+      responsive: true,
+      scales: {
+        yAxes: [
+          {
+            stacked: this.stacked,
+          },
+        ],
+      },
+      animation: {
+        duration: 0,
+      },
+    };
     this.chartData = [];
     CandidatList.LIST.forEach((candidat) => {
       this.chartData.push(candidat.buildCandidatDataSet(this.stacked));

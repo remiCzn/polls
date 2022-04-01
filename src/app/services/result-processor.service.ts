@@ -3,7 +3,6 @@ import { Sondage, Tour } from './input.model';
 import PresidentiellesJson from './presidentielle.json';
 import { Data } from './input.model';
 import axios from 'axios';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -69,7 +68,12 @@ export class ResultProcessorService {
     for (let i = 1; i < raw.length; i++) {
       const sondage = raw[i];
       if (sondage.date.getTime() != date.getTime()) {
-        i > 0 ? result.push({ date: date, resultats: sum }) : null;
+        i > 0
+          ? result.push({
+              date: date,
+              resultats: ResultProcessorService.normalize(sum),
+            })
+          : null;
         date = sondage.date;
         sum = sondage.resultats;
         n = 1;
@@ -104,8 +108,21 @@ export class ResultProcessorService {
       });
       return {
         date: new Date(Date.parse(sondage.fin_enquete)),
+        institut: sondage.nom_institut,
+        lien: sondage.lien,
         resultats: resultats,
       };
     });
+  }
+
+  private static normalize(resultats: any) {
+    const sum = Object.values(this.CANDIDATS).reduce(
+      (previous, candidat) => previous + resultats[candidat],
+      0
+    );
+    Object.values(this.CANDIDATS).forEach((candidat) => {
+      resultats[candidat] *= 100 / sum;
+    });
+    return resultats;
   }
 }

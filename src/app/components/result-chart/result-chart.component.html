@@ -1,12 +1,23 @@
 <h2 style="text-align: center">Polls since 2022/01/01</h2>
-<div style="width: 80%">
-  <canvas
-    baseChart
-    [chartType]="'line'"
-    [legend]="true"
-    [datasets]="chartData"
-    [labels]="chartLabels"
-    [options]="chartOptions"
-  >
-  </canvas>
+<div class="chart-container">
+  <div class="config">
+    <mat-slide-toggle
+      style="padding-left: 20px"
+      [(ngModel)]="stacked"
+      (change)="loadChart()"
+      >Stacked</mat-slide-toggle
+    >
+  </div>
+  <mat-divider vertical style="height: 100%"></mat-divider>
+  <div class="chart">
+    <canvas
+      baseChart
+      [chartType]="'line'"
+      [legend]="true"
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="chartOptions"
+    >
+    </canvas>
+  </div>
 </div>
