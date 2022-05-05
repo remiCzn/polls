@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { ResultProcessorService } from 'src/app/services/result-processor.service';
+import { PollsProcessorService } from 'src/app/services/polls-processor.service';
 
 @Component({
   selector: 'app-result-table',
@@ -8,7 +8,7 @@ import { ResultProcessorService } from 'src/app/services/result-processor.servic
   styleUrls: ['./result-table.component.scss'],
 })
 export class ResultTableComponent implements OnInit {
-  constructor(private resultProcessor: ResultProcessorService) {
+  constructor(private resultProcessor: PollsProcessorService) {
     this.initPaginatorConfig = {
       pageSize: 10,
       length: 400,

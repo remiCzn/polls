@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Sondage, Tour } from './input.model';
+import { Sondage, Tour, Data } from './input.model';
 import PresidentiellesJson from './presidentielle.json';
-import { Data } from './input.model';
 import axios from 'axios';
 @Injectable({
   providedIn: 'root',
 })
-export class ResultProcessorService {
-  constructor() {}
+export class PollsProcessorService {
 
   public static CANDIDATS = {
     ARTHAUD: 'Nathalie Arthaud',
@@ -30,18 +28,19 @@ export class ResultProcessorService {
 
   private getData(): Promise<Data> {
     // return Promise.resolve(ResultProcessorService.results);
-    return axios.get(ResultProcessorService.resultsLink).then((result) => {
-      return result.data;
+    return axios.get(PollsProcessorService.resultsLink).then((result) => {
+      return result.data.filter((value: Sondage) => Date.parse(value.fin_enquete) <= Date.parse("2022-04-9"));
     });
   }
 
   public getCandidats() {
-    return Object.values(ResultProcessorService.CANDIDATS);
+    return Object.values(PollsProcessorService.CANDIDATS);
   }
 
   public async getResults() {
     const data = await this.getData();
-    const raw = data.sort((a, b) => {
+    const raw = data
+      .sort((a, b) => {
       return Date.parse(b.fin_enquete) - Date.parse(a.fin_enquete);
     });
     return this.parseResultats(raw);
@@ -69,14 +68,14 @@ export class ResultProcessorService {
         i > 0
           ? result.push({
               date: date,
-              resultats: ResultProcessorService.normalize(sum),
+              resultats: PollsProcessorService.normalize(sum),
             })
           : null;
         date = sondage.date;
         sum = sondage.resultats;
         n = 1;
       } else {
-        Object.values(ResultProcessorService.CANDIDATS).forEach((candidat) => {
+        Object.values(PollsProcessorService.CANDIDATS).forEach((candidat) => {
           sum[candidat] =
             (sum[candidat] * n + sondage.resultats[candidat]) / (n + 1);
         });
@@ -89,14 +88,15 @@ export class ResultProcessorService {
 
   private parseResultats(data: Data) {
     return data.map((sondage: Sondage) => {
-      let rawResultat = sondage.tours.filter(
+      const a = sondage.tours.filter(
         (tour: Tour) => tour.tour === 'Premier tour'
-      )[0].hypotheses[0].candidats;
+      )[0];
+      let rawResultat = a.hypotheses[0].candidats;
       let resultats: any = {};
       rawResultat.forEach((resultatCandidat) => {
         if (
           resultatCandidat.candidat != null &&
-          Object.values(ResultProcessorService.CANDIDATS).includes(
+          Object.values(PollsProcessorService.CANDIDATS).includes(
             resultatCandidat.candidat
           )
         ) {

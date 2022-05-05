@@ -1,15 +1,17 @@
 import { ChartDataSets } from 'chart.js';
-import { ResultProcessorService } from './result-processor.service';
+import { PollsProcessorService } from './polls-processor.service';
 
 class Candidat {
   public readonly name: string;
   public readonly color: string;
   private image?: string;
+  private readonly finalResult: number;
 
-  constructor(name: string, color: string, image?: string) {
+  constructor(name: string, color: string, finalResult: number, image?: string) {
     this.name = name;
     this.color = color;
     this.image = image;
+    this.finalResult = finalResult;
   }
 
   public buildCandidatDataSet(stacked: boolean): ChartDataSets {
@@ -28,18 +30,18 @@ class Candidat {
 
 export class CandidatList {
   public static LIST = [
-    new Candidat(ResultProcessorService.CANDIDATS.ARTHAUD, '#bb0000'),
-    new Candidat(ResultProcessorService.CANDIDATS.POUTOU, '#dd0000'),
-    new Candidat(ResultProcessorService.CANDIDATS.ROUSSEL, '#ee0000'),
-    new Candidat(ResultProcessorService.CANDIDATS.MELENCHON, '#cc2443'),
-    new Candidat(ResultProcessorService.CANDIDATS.HIDALGO, '#ff8080'),
-    new Candidat(ResultProcessorService.CANDIDATS.JADOT, '#00c000'),
-    new Candidat(ResultProcessorService.CANDIDATS.MACRON, '#ffeb00'),
-    new Candidat(ResultProcessorService.CANDIDATS.PECRESSE, '#0066cc'),
-    new Candidat(ResultProcessorService.CANDIDATS.LASSALLE, '#26c4ec'),
-    new Candidat(ResultProcessorService.CANDIDATS.DUPONT_AIGNAN, '#0082c4'),
-    new Candidat(ResultProcessorService.CANDIDATS.LE_PEN, '#0d378a'),
-    new Candidat(ResultProcessorService.CANDIDATS.ZEMMOUR, '#404040'),
+    new Candidat(PollsProcessorService.CANDIDATS.ARTHAUD, '#bb0000', 0.56),
+    new Candidat(PollsProcessorService.CANDIDATS.POUTOU, '#dd0000', 0.77),
+    new Candidat(PollsProcessorService.CANDIDATS.ROUSSEL, '#ee0000', 2.28),
+    new Candidat(PollsProcessorService.CANDIDATS.MELENCHON, '#cc2443', 21.95),
+    new Candidat(PollsProcessorService.CANDIDATS.HIDALGO, '#ff8080', 1.75),
+    new Candidat(PollsProcessorService.CANDIDATS.JADOT, '#00c000', 4.63),
+    new Candidat(PollsProcessorService.CANDIDATS.MACRON, '#ffeb00', 27.85),
+    new Candidat(PollsProcessorService.CANDIDATS.PECRESSE, '#0066cc', 4.78),
+    new Candidat(PollsProcessorService.CANDIDATS.LASSALLE, '#26c4ec', 3.13),
+    new Candidat(PollsProcessorService.CANDIDATS.DUPONT_AIGNAN, '#0082c4', 2.06),
+    new Candidat(PollsProcessorService.CANDIDATS.LE_PEN, '#0d378a', 23.15),
+    new Candidat(PollsProcessorService.CANDIDATS.ZEMMOUR, '#404040', 7.07),
   ];
 
   public static findByName(name: string): Candidat {

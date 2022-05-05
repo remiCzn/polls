@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
 import { CandidatList } from 'src/app/services/candidats.data';
-import { ResultProcessorService } from 'src/app/services/result-processor.service';
+import { PollsProcessorService } from 'src/app/services/polls-processor.service';
 
 @Component({
   selector: 'app-result-chart',
@@ -30,7 +30,7 @@ export class ResultChartComponent implements OnInit {
     },
   };
 
-  constructor(private resultProcessor: ResultProcessorService) {}
+  constructor(private resultProcessor: PollsProcessorService) {}
 
   ngOnInit(): void {
     this.loadChart();
@@ -58,8 +58,7 @@ export class ResultChartComponent implements OnInit {
     this.resultProcessor
       .getResultsGroupByDate()
       .then((res: Array<{ date: Date; resultats: any }>) => {
-        const raw = res
-          .reverse()
+        const raw = res.reverse()
           .filter(
             (sondage) => sondage.date.getTime() > new Date(2022, 1, 1).getTime()
           );
